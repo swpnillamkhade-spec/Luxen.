@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxen — Wear the Power</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #080807;
+  --cream: #f5f0e8;
+  --gold: #b8912a;
+  --gold2: #d4a93a;
+  --warm: #1a1610;
+  --mid: #2e2920;
+  --muted: #6b6455;
+  --border: rgba(184,145,42,0.18);
+  --card: #111009;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--ink);
+  color: var(--cream);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,8,7,0.96);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem; height: 60px;
+}
+.brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem; font-weight: 700;
+  letter-spacing: 0.18em; color: var(--gold);
+  text-transform: uppercase; line-height: 1;
+}
+.brand-tag {
+  font-size: 0.55rem; letter-spacing: 0.35em;
+  color: var(--muted); text-transform: uppercase;
+}
+.hdr-cart {
+  background: none; border: 1px solid var(--border); color: var(--cream);
+  padding: 0.45rem 1rem; border-radius: 2px;
+  font-family: 'Outfit', sans-serif; font-size: 0.78rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+  transition: all 0.2s;
+}
+.hdr-cart:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.badge {
+  background: var(--gold); color: var(--ink);
+  border-radius: 50%; width: 17px; height: 17px;
+  font-size: 0.6rem; font-weight: 700;
+  display: none; align-items: center; justify-content: center;
+}
+.badge.on { display: flex; }
+
+/* HERO */
+.hero {
+  position: relative; overflow: hidden;
+  padding: 4.5rem 1.5rem 3rem; text-align: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,145,42,0.08) 0%, transparent 70%);
+}
+.hero-bg-text {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(5rem, 24vw, 16rem); font-weight: 700;
+  color: rgba(184,145,42,0.035); letter-spacing: 0.2em;
+  white-space: nowrap; pointer-events: none; user-select: none;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 8vw, 4.5rem);
+  font-weight: 300; letter-spacing: 0.05em; line-height: 1.1; position: relative;
+}
+.hero h1 em { color: var(--gold); font-style: italic; font-weight: 600; }
+.hero-sub {
+  margin-top: 0.9rem; font-size: 0.72rem;
+  letter-spacing: 0.32em; color: var(--muted);
+  text-transform: uppercase; position: relative;
+}
+.divider {
+  width: 48px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 1.4rem auto 0;
+}
+
+/* FILTERS */
+.filters-section { padding: 1.8rem 1.25rem 1rem; }
+.filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; }
+.fbtn {
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); cursor: pointer; padding: 0.42rem 1.15rem;
+  border-radius: 1px; font-family: 'Outfit', sans-serif;
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  transition: all 0.2s;
+}
+.fbtn:hover { border-color: var(--gold); color: var(--gold); }
+.fbtn.active { background: var(--gold); color: var(--ink); border-color: var(--gold); font-weight: 600; }
+
+/* GRID */
+.grid-section { padding: 0.5rem 1rem 7rem; }
+.grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; max-width: 1080px; margin: 0 auto;
+}
+@media(min-width: 780px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width: 1020px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 3px; overflow: hidden;
+  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  animation: rise 0.5s ease both;
+}
+@keyframes rise {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(184,145,42,0.5);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+.card-img {
+  aspect-ratio: 3/4; overflow: hidden;
+  background: #1a1714; position: relative;
+}
+.card-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.55s; display: block;
+}
+.card:hover .card-img img { transform: scale(1.07); }
+.img-ph {
+  display: none; width: 100%; height: 100%;
+  align-items: center; justify-content: center; flex-direction: column;
+  gap: 0.5rem; background: #1a1714; color: var(--muted);
+  font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase;
+  position: absolute; top: 0; left: 0;
+}
+.cat-pill {
+  position: absolute; top: 0.55rem; left: 0.55rem;
+  background: rgba(8,8,7,0.82); border: 1px solid var(--border);
+  color: var(--gold); font-size: 0.55rem; letter-spacing: 0.16em;
+  text-transform: uppercase; padding: 0.18rem 0.5rem; border-radius: 1px;
+}
+.card-body { padding: 0.8rem; }
+.card-name {
+  font-size: 0.82rem; font-weight: 500; color: var(--cream);
+  line-height: 1.35; margin-bottom: 0.2rem;
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.card-desc { font-size: 0.68rem; color: var(--muted); margin-bottom: 0.55rem; line-height: 1.4; }
+.card-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem; font-weight: 600; color: var(--gold); margin-bottom: 0.65rem;
+}
+.add-btn {
+  width: 100%; background: none; border: 1px solid rgba(184,145,42,0.4);
+  color: var(--gold); padding: 0.5rem;
+  font-family: 'Outfit', sans-serif; font-size: 0.68rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  cursor: pointer; border-radius: 1px; transition: all 0.22s; font-weight: 500;
+}
+.add-btn:hover, .add-btn.added { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+/* FLOATING */
+.floats {
+  position: fixed; bottom: 1.4rem; right: 1.4rem;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.65rem;
+  z-index: 90;
+}
+.float-cart-btn {
+  background: var(--gold); color: var(--ink);
+  border: none; border-radius: 50px; padding: 0.7rem 1.15rem;
+  font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.06em; cursor: pointer;
+  display: none; align-items: center; gap: 0.5rem;
+  box-shadow: 0 4px 20px rgba(184,145,42,0.45);
+  transition: transform 0.2s;
+}
+.float-cart-btn.show { display: flex; }
+.float-cart-btn:hover { transform: scale(1.05); }
+.float-wa {
+  width: 46px; height: 46px; border-radius: 50%;
+  background: #25D366; color: #fff; border: none;
+  font-size: 1.25rem; cursor: pointer; text-decoration: none;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+  transition: transform 0.2s;
+}
+.float-wa:hover { transform: scale(1.1); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 5.5rem; right: 1.4rem; z-index: 999;
+  background: var(--gold); color: var(--ink);
+  padding: 0.55rem 1rem; border-radius: 50px;
+  font-size: 0.75rem; font-weight: 600;
+  opacity: 0; transform: translateY(8px);
+  transition: all 0.28s; pointer-events: none; white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* OVERLAY */
+.overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+  z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+.overlay.on { opacity: 1; pointer-events: all; }
+
+/* CART PANEL */
+.cart-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(400px, 100vw); background: var(--warm);
+  border-left: 1px solid var(--border); z-index: 201;
+  transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  display: flex; flex-direction: column;
+}
+.cart-panel.on { transform: translateX(0); }
+.cp-head {
+  padding: 1.25rem; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.cp-head h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600; letter-spacing: 0.06em;
+}
+.cp-close {
+  background: none; border: none; color: var(--muted);
+  font-size: 1.4rem; cursor: pointer; padding: 0.2rem; transition: color 0.2s;
+}
+.cp-close:hover { color: var(--cream); }
+.cp-items { flex: 1; overflow-y: auto; padding: 0.75rem 1.25rem; }
+.cp-empty { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+.cp-empty-icon { font-size: 2.8rem; margin-bottom: 0.75rem; opacity: 0.35; }
+.cp-item {
+  display: flex; gap: 0.85rem;
+  padding: 0.85rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  animation: rise 0.25s ease;
+}
+.cp-img { width: 58px; height: 72px; object-fit: cover; border-radius: 2px; flex-shrink: 0; background:#1a1714; }
+.cp-info { flex: 1; min-width: 0; }
+.cp-name { font-size: 0.82rem; font-weight: 500; line-height: 1.3; margin-bottom: 0.2rem; }
+.cp-sub { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--gold); }
+.qty-row { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.45rem; }
+.qbtn {
+  background: var(--mid); border: none; color: var(--cream);
+  width: 24px; height: 24px; border-radius: 2px; cursor: pointer;
+  font-size: 0.9rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.18s;
+}
+.qbtn:hover { background: var(--gold); color: var(--ink); }
+.qval { font-size: 0.82rem; min-width: 18px; text-align: center; }
+.rm-btn {
+  background: none; border: none; color: var(--muted);
+  cursor: pointer; font-size: 0.65rem; letter-spacing: 0.1em;
+  text-transform: uppercase; margin-top: 0.35rem;
+  padding: 0; display: block; transition: color 0.18s;
+}
+.rm-btn:hover { color: #e05555; }
+.cp-foot { padding: 1.25rem; border-top: 1px solid var(--border); }
+.total-row {
+  display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem;
+}
+.total-label { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.total-amt { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; color: var(--gold); font-weight: 600; }
+.place-btn {
+  width: 100%; background: var(--gold); color: var(--ink); border: none; padding: 0.85rem;
+  font-family: 'Outfit', sans-serif; font-size: 0.82rem; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer;
+  border-radius: 2px; transition: background 0.2s;
+}
+.place-btn:hover { background: var(--gold2); }
+.place-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* ORDER MODAL */
+.modal-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.88);
+  z-index: 300; display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.modal-bg.on { display: flex; }
+.modal {
+  background: var(--warm); border: 1px solid var(--border);
+  border-radius: 3px; width: min(460px, 100%);
+  max-height: 92vh; overflow-y: auto;
+  padding: 1.75rem 1.5rem; animation: rise 0.3s ease;
+}
+.modal h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem; color: var(--gold); margin-bottom: 0.2rem;
+}
+.modal-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 1.4rem; line-height: 1.5; }
+.fg { margin-bottom: 1rem; }
+.fg label {
+  display: block; font-size: 0.68rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
+}
+.fg input, .fg textarea, .fg select {
+  width: 100%; background: var(--mid); border: 1px solid var(--border);
+  color: var(--cream); padding: 0.65rem 0.85rem; border-radius: 2px;
+  font-family: 'Outfit', sans-serif; font-size: 0.82rem;
+  outline: none; transition: border-color 0.2s; -webkit-appearance: none;
+}
+.fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--gold); }
+.fg textarea { resize: vertical; min-height: 72px; }
+.fg select option { background: var(--warm); }
+.form-btns { display: flex; gap: 0.65rem; margin-top: 1.4rem; }
+.sbtn {
+  flex: 1; background: var(--gold); color: var(--ink); border: none; padding: 0.82rem;
+  font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+  border-radius: 2px; transition: background 0.2s;
+}
+.sbtn:hover { background: var(--gold2); }
+.cbtn {
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  padding: 0.82rem 1.1rem; font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem; cursor: pointer; border-radius: 2px; transition: all 0.2s;
+}
+.cbtn:hover { border-color: var(--muted); color: var(--cream); }
+
+/* SUCCESS */
+.success-bg {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.92);
+  z-index: 400; display: none; align-items: center; justify-content: center; padding: 1rem;
+}
+.success-bg.on { display: flex; }
+.success-box {
+  background: var(--warm); border: 1px solid var(--gold);
+  border-radius: 3px; width: min(420px, 100%);
+  padding: 2.5rem 1.75rem; text-align: center; animation: rise 0.35s ease;
+}
+.s-icon { font-size: 2.8rem; margin-bottom: 0.9rem; }
+.success-box h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem; color: var(--gold); margin-bottom: 0.65rem;
+}
+.success-box p { color: var(--muted); font-size: 0.82rem; line-height: 1.65; margin-bottom: 1.4rem; }
+.wa-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  background: #25D366; color: #fff; text-decoration: none;
+  padding: 0.7rem 1.4rem; border-radius: 50px; font-weight: 600;
+  font-size: 0.82rem; margin-bottom: 0.9rem;
+  transition: transform 0.2s; box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+}
+.wa-btn:hover { transform: scale(1.04); }
+.done-btn {
+  display: block; width: 100%; background: none;
+  border: 1px solid var(--border); color: var(--muted); padding: 0.7rem;
+  font-family: 'Outfit', sans-serif; font-size: 0.78rem;
+  cursor: pointer; border-radius: 2px; transition: all 0.2s;
+}
+.done-btn:hover { border-color: var(--cream); color: var(--cream); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.25rem; text-align: center;
+  color: var(--muted); font-size: 0.72rem; letter-spacing: 0.08em; line-height: 2;
+}
+footer strong { color: var(--gold); letter-spacing: 0.18em; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--mid); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="brand-name">Luxen</div>
+    <div class="brand-tag">Wear the Power</div>
+  </div>
+  <button class="hdr-cart" onclick="openCart()">
+    🛍 Cart <span class="badge" id="hdrBadge">0</span>
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">LUXEN</div>
+  <h1>Wear the <em>Power</em></h1>
+  <p class="hero-sub">Premium Fashion · Men · Women · Kids</p>
+  <div class="divider"></div>
+</section>
+
+<!-- FILTERS -->
+<div class="filters-section">
+  <div class="filter-row">
+    <button class="fbtn active" onclick="filter('All',this)">All</button>
+    <button class="fbtn" onclick="filter('Man',this)">Men</button>
+    <button class="fbtn" onclick="filter('Women',this)">Women</button>
+    <button class="fbtn" onclick="filter('Kids',this)">Kids</button>
+  </div>
+</div>
+
+<!-- PRODUCTS GRID -->
+<div class="grid-section">
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- FLOATING BUTTONS -->
+<div class="floats">
+  <a href="https://wa.me/917498096792" target="_blank" class="float-wa" title="Chat on WhatsApp">💬</a>
+  <button class="float-cart-btn" id="floatBtn" onclick="openCart()">
+    🛍 <span id="floatCount">0</span> item(s)
+  </button>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cp-head">
+    <h2>Your Cart</h2>
+    <button class="cp-close" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cp-items" id="cpItems"></div>
+  <div class="cp-foot">
+    <div class="total-row">
+      <span class="total-label">Grand Total</span>
+      <span class="total-amt" id="totalAmt">₹0</span>
+    </div>
+    <button class="place-btn" id="placeBtn" onclick="openOrderModal()" disabled>Place Order →</button>
+  </div>
+</div>
+
+<!-- ORDER FORM MODAL -->
+<div class="modal-bg" id="orderBg">
+  <div class="modal">
+    <h2>Complete Order</h2>
+    <p class="modal-sub">Fill in your details. Luxen will contact you on WhatsApp to confirm your order and delivery.</p>
+    <form id="orderForm" action="https://formspree.io/f/xreyqgng" method="POST">
+      <div class="fg">
+        <label>Full Name *</label>
+        <input type="text" name="customer_name" required placeholder="Your full name">
+      </div>
+      <div class="fg">
+        <label>Phone Number *</label>
+        <input type="tel" name="customer_phone" required placeholder="+91 XXXXX XXXXX">
+      </div>
+      <div class="fg">
+        <label>Delivery Address *</label>
+        <textarea name="delivery_address" required placeholder="House no., Street, Area, City, PIN Code"></textarea>
+      </div>
+      <div class="fg">
+        <label>Size</label>
+        <select name="size">
+          <option value="">— Select Size —</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Special Instructions</label>
+        <textarea name="special_instructions" placeholder="Colour preference, gift wrapping, delivery time, etc."></textarea>
+      </div>
+      <!-- Hidden: full order compiled by JS -->
+      <input type="hidden" name="order_summary" id="hidSummary">
+      <input type="hidden" name="grand_total" id="hidTotal">
+      <input type="hidden" name="_subject" value="🛍 New Order — Luxen Store">
+      <div class="form-btns">
+        <button type="button" class="cbtn" onclick="closeOrderModal()">Cancel</button>
+        <button type="submit" class="sbtn" id="submitBtn">Confirm Order →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="success-bg" id="successBg">
+  <div class="success-box">
+    <div class="s-icon">✅</div>
+    <h2>Order Placed!</h2>
+    <p>Thank you for shopping with <strong style="color:var(--gold)">Luxen</strong>!<br>
+    We will contact you on WhatsApp shortly to confirm your order, availability, and delivery.</p>
+    <a href="https://wa.me/917498096792" target="_blank" class="wa-btn">💬 Chat on WhatsApp</a>
+    <button class="done-btn" onclick="closeSuccess()">Close</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>LUXEN</strong><br>
+  Wear the Power<br>
+  📞 +91 74980 96792 &nbsp;·&nbsp; ✉ swpnillamkhade@gmail.com<br><br>
+  <span style="opacity:0.4">© 2025 Luxen. All rights reserved.</span>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   PRODUCTS
+   Replace each img URL with your real
+   imgbb direct link when you have them.
+   Until then, a fallback icon shows.
+══════════════════════════════════════════ */
+const PRODUCTS = [
+  { id:1,  name:"Men Regular Fit Solid Spread Collar Shirt", price:450, cat:"Man",   img:"https://i.ibb.co/fd0wwjPt/Whisk-69ea23a68821455b4b34b6955008467edr.png", desc:"Regular modern casual cotton shirt" },
+  { id:2,  name:"Men Checkered Casual Brown Shirt",          price:499, cat:"Man",   img:"https://i.ibb.co/sdbdy9Xm/Whisk-98682048ff8f96a82b34bd35c05c10badr.png", desc:"Trendy checkered pattern casual wear" },
+  { id:3,  name:"Men Slim Fit Formal White Shirt",           price:599, cat:"Man",   img:"https://i.ibb.co/fd0wwjPt/Whisk-69ea23a68821455b4b34b6955008467edr.png", desc:"Crisp white slim fit office shirt" },
+  { id:4,  name:"Men Classic Black Polo T-Shirt",            price:349, cat:"Man",   img:"https://i.ibb.co/sdbdy9Xm/Whisk-98682048ff8f96a82b34bd35c05c10badr.png", desc:"Premium cotton polo for everyday wear" },
+  { id:5,  name:"Women Floral Printed Kurta",                price:699, cat:"Women", img:"https://i.ibb.co/fd0wwjPt/Whisk-69ea23a68821455b4b34b6955008467edr.png", desc:"Elegant floral kurta for festive occasions" },
+  { id:6,  name:"Women Solid Anarkali Suit",                 price:999, cat:"Women", img:"https://i.ibb.co/sdbdy9Xm/Whisk-98682048ff8f96a82b34bd35c05c10badr.png", desc:"Graceful anarkali for celebrations" },
+  { id:7,  name:"Women Casual Stripe Top",                   price:399, cat:"Women", img:"https://i.ibb.co/fd0wwjPt/Whisk-69ea23a68821455b4b34b6955008467edr.png", desc:"Lightweight breathable everyday top" },
+  { id:8,  name:"Kids Cartoon Print T-Shirt",                price:249, cat:"Kids",  img:"https://i.ibb.co/sdbdy9Xm/Whisk-98682048ff8f96a82b34bd35c05c10badr.png", desc:"Fun and colorful kids tee" },
+  { id:9,  name:"Kids Denim Dungaree Set",                   price:549, cat:"Kids",  img:"https://i.ibb.co/fd0wwjPt/Whisk-69ea23a68821455b4b34b6955008467edr.png", desc:"Durable & stylish denim dungaree" },
+  { id:10, name:"Kids Ethnic Kurta Pajama",                  price:449, cat:"Kids",  img:"https://i.ibb.co/sdbdy9Xm/Whisk-98682048ff8f96a82b34bd35c05c10badr.png", desc:"Traditional ethnic wear for little ones" },
+];
+
+/* CART */
+let cart = JSON.parse(localStorage.getItem('luxen_cart') || '[]');
+const save = () => localStorage.setItem('luxen_cart', JSON.stringify(cart));
+
+/* IMG FALLBACK */
+function imgErr(el) {
+  el.style.display = 'none';
+  const ph = el.parentElement.querySelector('.img-ph');
+  if (ph) ph.style.display = 'flex';
+}
+
+/* RENDER GRID */
+function render(cat = 'All') {
+  const list = cat === 'All' ? PRODUCTS : PRODUCTS.filter(p => p.cat === cat);
+  document.getElementById('grid').innerHTML = list.map((p, i) => `
+    <div class="card" style="animation-delay:${i*0.055}s">
+      <div class="card-img">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="imgErr(this)">
+        <div class="img-ph"><span style="font-size:2rem">👕</span><span>No Image</span></div>
+        <span class="cat-pill">${p.cat}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-name">${p.name}</div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-price">₹${p.price.toLocaleString('en-IN')}</div>
+        <button class="add-btn ${cart.find(c=>c.id===p.id)?'added':''}"
+          id="ab${p.id}" onclick="addToCart(${p.id})">
+          ${cart.find(c=>c.id===p.id) ? '✓ Added' : '+ Add to Cart'}
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+/* FILTER */
+function filter(cat, btn) {
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render(cat);
+}
+
+/* ADD TO CART */
+function addToCart(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  const ex = cart.find(c => c.id === id);
+  if (ex) ex.qty++;
+  else cart.push({ ...p, qty: 1 });
+  save(); syncUI();
+  showToast(p.name.split(' ').slice(0,3).join(' ') + ' added!');
+  const btn = document.getElementById('ab'+id);
+  if (btn) { btn.classList.add('added'); btn.textContent = '✓ Added'; }
+}
+
+/* SYNC ALL UI */
+function syncUI() {
+  const count = cart.reduce((s,i) => s+i.qty, 0);
+  const total = cart.reduce((s,i) => s+i.price*i.qty, 0);
+
+  const b = document.getElementById('hdrBadge');
+  b.textContent = count;
+  count ? b.classList.add('on') : b.classList.remove('on');
+
+  const fb = document.getElementById('floatBtn');
+  document.getElementById('floatCount').textContent = count;
+  count ? fb.classList.add('show') : fb.classList.remove('show');
+
+  document.getElementById('totalAmt').textContent = `₹${total.toLocaleString('en-IN')}`;
+  document.getElementById('placeBtn').disabled = cart.length === 0;
+
+  const el = document.getElementById('cpItems');
+  if (!cart.length) {
+    el.innerHTML = `<div class="cp-empty"><div class="cp-empty-icon">🛍</div><p>Your cart is empty.</p><p style="font-size:0.72rem;margin-top:0.4rem;color:var(--muted)">Browse and add items!</p></div>`;
+    return;
+  }
+  el.innerHTML = cart.map(item => `
+    <div class="cp-item">
+      <img src="${item.img}" alt="${item.name}" class="cp-img" loading="lazy"
+        onerror="this.style.background='#1a1714';this.style.opacity='0'">
+      <div class="cp-info">
+        <div class="cp-name">${item.name}</div>
+        <div class="cp-sub">₹${(item.price*item.qty).toLocaleString('en-IN')}</div>
+        <div class="qty-row">
+          <button class="qbtn" onclick="qty(${item.id},-1)">−</button>
+          <span class="qval">${item.qty}</span>
+          <button class="qbtn" onclick="qty(${item.id},1)">+</button>
+        </div>
+        <button class="rm-btn" onclick="rm(${item.id})">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+function qty(id, d) {
+  const item = cart.find(c => c.id === id);
+  if (!item) return;
+  item.qty += d;
+  if (item.qty <= 0) { rm(id); return; }
+  save(); syncUI();
+}
+function rm(id) {
+  cart = cart.filter(c => c.id !== id);
+  save(); syncUI();
+  const btn = document.getElementById('ab'+id);
+  if (btn) { btn.classList.remove('added'); btn.textContent = '+ Add to Cart'; }
+}
+
+/* CART PANEL */
+function openCart()  { document.getElementById('cartPanel').classList.add('on'); document.getElementById('overlay').classList.add('on'); document.body.style.overflow='hidden'; }
+function closeCart() { document.getElementById('cartPanel').classList.remove('on'); document.getElementById('overlay').classList.remove('on'); document.body.style.overflow=''; }
+
+/* ORDER MODAL */
+function openOrderModal() {
+  closeCart();
+  const lines = cart.map(i => `• ${i.name}  x${i.qty}  =  ₹${(i.price*i.qty).toLocaleString('en-IN')}`).join('\n');
+  const total = cart.reduce((s,i) => s+i.price*i.qty, 0);
+  document.getElementById('hidSummary').value =
+    `ORDER FROM LUXEN\n${'─'.repeat(40)}\n${lines}\n${'─'.repeat(40)}\nGRAND TOTAL: ₹${total.toLocaleString('en-IN')}`;
+  document.getElementById('hidTotal').value = `₹${total.toLocaleString('en-IN')}`;
+  document.getElementById('orderBg').classList.add('on');
+  document.body.style.overflow = 'hidden';
+}
+function closeOrderModal() { document.getElementById('orderBg').classList.remove('on'); document.body.style.overflow=''; }
+
+/* FORM SUBMIT */
+document.getElementById('orderForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    const res = await fetch(this.action, { method:'POST', body:new FormData(this), headers:{'Accept':'application/json'} });
+    if (res.ok) {
+      closeOrderModal();
+      cart = []; save(); syncUI(); render();
+      document.getElementById('successBg').classList.add('on');
+    } else {
+      alert('Something went wrong. Please try again or contact us on WhatsApp.');
+      btn.textContent = 'Confirm Order →'; btn.disabled = false;
+    }
+  } catch {
+    alert('Network error. Please check your connection.');
+    btn.textContent = 'Confirm Order →'; btn.disabled = false;
+  }
+});
+
+function closeSuccess() { document.getElementById('successBg').classList.remove('on'); document.body.style.overflow=''; }
+
+/* TOAST */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* INIT */
+render();
+syncUI();
+</script>
+</body>
+</html>
